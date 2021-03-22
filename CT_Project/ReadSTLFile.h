@@ -17,10 +17,8 @@ private:
 
 	unsigned int unTriangles;
 	char* memwriter;
-
-	bool ReadASCII(const char *cfilename);// 读入ascii码形式的 stl文件   本项目，由于生成的是二进制stl，所以这个函数就没有用到
-	bool ReadBinary(const char *cfilename);// 读入二进制的stl文件
-
+	
+	bool ReadBinary(const char *cfilename);// 璇诲叆浜岃繘鍒剁殑stl鏂囦欢
 	int cpyint(const char*& p);
 	float cpyfloat(const char*& p);
 };
