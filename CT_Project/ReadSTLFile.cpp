@@ -15,19 +15,19 @@ bool ReadSTLFile::ReadFile(const char *cfilename)
 	char* buffer;
 	size_t result;
 
-	/* ÈôÒªÒ»¸öbyte²»Â©µØ¶ÁÈëÕû¸öÎÄ¼ş£¬Ö»ÄÜ²ÉÓÃ¶ş½øÖÆ·½Ê½´ò¿ª */
+	/* è‹¥è¦ä¸€ä¸ªbyteä¸æ¼åœ°è¯»å…¥æ•´ä¸ªæ–‡ä»¶ï¼Œåªèƒ½é‡‡ç”¨äºŒè¿›åˆ¶æ–¹å¼æ‰“å¼€ */
 	fopen_s(&pFile, cfilename, "rb");
 	if (pFile == NULL)
 	{
 		return false;
 	}
 
-	/* »ñÈ¡ÎÄ¼ş´óĞ¡ */
+	/* è·å–æ–‡ä»¶å¤§å° */
 	fseek(pFile, 0, SEEK_END);
 	lSize = ftell(pFile);
 	rewind(pFile);
 
-	/* ·ÖÅäÄÚ´æ´æ´¢Õû¸öÎÄ¼ş */
+	/* åˆ†é…å†…å­˜å­˜å‚¨æ•´ä¸ªæ–‡ä»¶ */
 	buffer = (char*)malloc(sizeof(char)*lSize);
 	if (buffer == NULL)
 	{
@@ -35,7 +35,7 @@ bool ReadSTLFile::ReadFile(const char *cfilename)
 		exit(2);
 	}
 
-	/* ½«ÎÄ¼ş¿½±´µ½bufferÖĞ */
+	/* å°†æ–‡ä»¶æ‹·è´åˆ°bufferä¸­ */
 	result = fread(buffer, 1, lSize, pFile);
 	if (result != lSize)
 	{
@@ -43,55 +43,13 @@ bool ReadSTLFile::ReadFile(const char *cfilename)
 		exit(3);
 	}
 
-
-	/* ½áÊøÑİÊ¾£¬¹Ø±ÕÎÄ¼ş²¢ÊÍ·ÅÄÚ´æ */
+	/* ç»“æŸæ¼”ç¤ºï¼Œå…³é—­æ–‡ä»¶å¹¶é‡Šæ”¾å†…å­˜ */
 	fclose(pFile);
-
+	
 	ios::sync_with_stdio(false);
-
-	//ËüÕâ¸öÅĞ¶Ï¸ñÊ½µÄ´úÂë  ¹À¼Æ²»Ì«¶Ô£¬Ã÷Ã÷ÊÇ¶ş½øÖÆµÄÎÄ¼ş£¬ËüÕâÀïÖ±½ÓÊ¹ÓÃÁË ¶ÁasciiÂëµÄ·½Ê½£¬ ËùÒÔÖ±½ÓÓÃ¶ş½øÖÆ¶Á°É
-
-	//if (buffer[79] != '\0')//ÅĞ¶Ï¸ñÊ½   
-	//{
-	//	ReadASCII(buffer);
-	//}
-	//else
-	//{
-	//	ReadBinary(buffer);
-	//}
-	//ÓÉÓÚ ÎÒÃÇ µÄ³ÌĞòÉú³ÉstlÊÇ ¶ş½øÖÆµÄËùÒÔÎÒÃÇÕâÀï¾Í²»×öÅĞ¶ÏÁË£¬Ö±½ÓÖ»ÓÃ¶ş½øÖÆµÄ·½Ê½À´¶ÁÈë
 	ReadBinary(buffer);
 	ios::sync_with_stdio(true);
-
 	free(buffer);
-	return true;
-}
-
-bool ReadSTLFile::ReadASCII(const char *buffer)
-{
-	unTriangles = 0;
-	float x, y, z;
-	int i;
-	string name, useless;
-	stringstream ss(buffer);
-	ss >> name >> name;
-	ss.get();
-	do {
-		ss >> useless;
-		if (useless != "facet")
-			break;
-		getline(ss, useless);
-		getline(ss, useless);
-		for (i = 0; i < 3; i++)
-		{
-			ss >> useless >> x >> y >> z;
-			pointList.push_back(QVector3D(x, y, z));
-		}
-		unTriangles++;
-		getline(ss, useless);
-		getline(ss, useless);
-		getline(ss, useless);
-	} while (1);
 	return true;
 }
 
@@ -107,12 +65,12 @@ bool ReadSTLFile::ReadBinary(const char *buffer)
 	const char *tempP;
 	for (i = 0; i < unTriangles; i++)
 	{
-		vectorList.push_back(QVector3D(cpyfloat(p), cpyfloat(p), cpyfloat(p)));//¶ÁÈ¡ Èı½ÇÆ¬ÃæµÄÏòÁ¿ĞÅÏ¢
-		for (j = 0; j < 3; j++)//¶ÁÈ¡Èı¶¥µã
+		vectorList.push_back(QVector3D(cpyfloat(p), cpyfloat(p), cpyfloat(p)));//è¯»å– ä¸‰è§’ç‰‡é¢çš„å‘é‡ä¿¡æ¯
+		for (j = 0; j < 3; j++)//è¯»å–ä¸‰é¡¶ç‚¹
 		{
 			pointList.push_back(QVector3D(cpyfloat(p), cpyfloat(p), cpyfloat(p)));
 		}
-		p += 2;//Ìø¹ıÎ²²¿±êÖ¾
+		p += 2;//è·³è¿‡å°¾éƒ¨æ ‡å¿—
 	}
 	return true;
 }
@@ -122,11 +80,11 @@ int ReadSTLFile::NumTri()
 	return unTriangles;
 }
 
-vector<QVector3D> ReadSTLFile::getPointList()// »ñÈ¡µãÊı¾İ
+vector<QVector3D> ReadSTLFile::getPointList()// è·å–ç‚¹æ•°æ®
 {
 	return pointList;
 }
-vector<QVector3D> ReadSTLFile::getVectorList()// »ñÈ¡Èı½ÇÆ¬Ãæ ÏòÁ¿Êı¾İ
+vector<QVector3D> ReadSTLFile::getVectorList()// è·å–ä¸‰è§’ç‰‡é¢ å‘é‡æ•°æ®
 {
 	return vectorList;
 }
@@ -141,9 +99,6 @@ int ReadSTLFile::cpyint(const char*& p)
 		p++;
 	}
 	cpy = *(int*)byte;
-	//memwriter = (char*)&cpy;
-	//memcpy(memwriter, p, 4);
-	//p += 4;
 	return cpy;
 }
 float ReadSTLFile::cpyfloat(const char*& p)
@@ -156,8 +111,5 @@ float ReadSTLFile::cpyfloat(const char*& p)
 		p++;
 	}
 	cpy = *(float*)byte;
-	/*memwriter = (char*)&cpy;
-	memcpy(memwriter, p, 4);
-	p += 4;*/
 	return cpy;
 }
