@@ -11,3 +11,7 @@
 链接：[https://blog.csdn.net/weixin_43346106/article/details/115036838?spm=1001.2014.3001.5501](https://blog.csdn.net/weixin_43346106/article/details/115036838?spm=1001.2014.3001.5501)
 
 **环境**：`VS2017` + `Qt5.14.0`
+
+## 运行
++ 1、下载项目源文件，配置qt环境，运行。
++ 2、直接克隆项目到vs，配置qt环境，运行。
